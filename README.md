@@ -13,6 +13,8 @@ See https://github.com/ihipop/php-nodejs-alpine#tags-instruction for Tags Instru
 # Usage 
 ```bash
 docker run --rm  -it   -v $(pwd):/project ihipop/deployer-toolkit:php7.1-node8.9-dep6.0 dep --version
+docker run --rm  -it   -v $(pwd):/project ihipop/deployer-toolkit:php7.1-node8.9-dep6.0 composer --version
+docker run --rm  -it   -v $(pwd):/project ihipop/deployer-toolkit:php7.1-node8.9-dep6.0 npm --version
 ```
 
 # PATH & ENV
