@@ -10,8 +10,7 @@ ARG HTTPS_PROXY=""
 ARG COMPOSER_VERSION=1.6.2
 ARG DEPLOYER_VERSION=6.0.5
 
-ARG ARTIFACT=/tmp/artifact
-COPY artifact ${ARTIFACT}
+COPY artifact/local-bin/* /usr/local/bin/
 
 ENV COMPOSER_HOME="/usr/local/composer" 
 ENV PATH=${COMPOSER_HOME}/vendor/bin/:/project/vendor/bin/:$PATH
@@ -27,24 +26,21 @@ RUN apk update --no-cache \
     echo 'export COMPOSER_HOME='${COMPOSER_HOME} >>/etc/profile.d/user_env.sh
 
 
-RUN if [ -f "${ARTIFACT}"/composer.phar ];then \
-      mv "${ARTIFACT}"/composer.phar /usr/local/bin/composer; \
-    else \
-      curl -L https://getcomposer.org/download/${COMPOSER_VERSION}/composer.phar -o /usr/local/bin/composer; \
+RUN cd /usr/local/bin/ && \
+    if [ ! -f /usr/local/bin/composer.phar ];then \
+      curl -L https://getcomposer.org/download/${COMPOSER_VERSION}/composer.phar -o /usr/local/bin/composer.phar; \
     fi && \
-    chmod +x /usr/local/bin/composer && \
+    chmod +x /usr/local/bin/composer.phar && \
+    ln -s composer.phar composer && \
     curl -L https://deployer.org/releases/v$DEPLOYER_VERSION/deployer.phar -o /usr/local/bin/deployer &&\
-    chmod +x /usr/local/bin/deployer &&  ln -s deployer dep && mv ./dep /usr/local/bin/  && \
-    mv "${ARTIFACT}"/entrypoint.sh /usr/local/bin/entrypoint.sh && \
+    chmod +x /usr/local/bin/deployer &&  ln -s deployer dep && \
     chmod +x /usr/local/bin/entrypoint.sh && \
-    if [ -f "${ARTIFACT}"/cachetool.phar ];then \
-      mv "${ARTIFACT}"/cachetool.phar /usr/local/bin/cachetool; \
-    else \
-      curl -L https://gordalina.github.io/cachetool/downloads/cachetool.phar -o /usr/local/bin/cachetool; \
+    if [ ! -f /usr/local/bin/cachetool.phar ];then \
+      curl -L https://gordalina.github.io/cachetool/downloads/cachetool.phar -o /usr/local/bin/cachetool.phar; \
     fi && \
-    chmod +x /usr/local/bin/cachetool && \
-    rm -rf "${ARTIFACT}" 
-
+    chmod +x /usr/local/bin/cachetool.phar && \
+    ln -s cachetool.phar cachetool
+    
 RUN if [ "$IN_CHINA" == "true" ]; then \
       composer config -g repo.packagist composer https://packagist.laravel-china.org &&\
       npm config set registry https://registry.npm.taobao.org ; \
