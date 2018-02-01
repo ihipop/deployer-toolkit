@@ -55,7 +55,7 @@ RUN composer global require 'deployer/recipes:<='${DEPLOYER_VERSION} && \
     /usr/lib/node_modules/npm/doc /usr/lib/node_modules/npm/html /usr/lib/node_modules/npm/scripts \
     /root/.composer/cache/ ${COMPOSER_HOME}/cache/
 
-VOLUME ["/project", "/root/.ssh", "/tmp"]
+VOLUME ["/project", "/ssh", "/tmp"]
 WORKDIR /project
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

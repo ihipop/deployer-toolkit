@@ -15,6 +15,7 @@ See https://github.com/ihipop/php-nodejs-alpine#tags-instruction for Tags Instru
 docker run --rm  -it   -v $(pwd):/project ihipop/deployer-toolkit:php7.1-node8.9-dep6.0 dep --version
 docker run --rm  -it   -v $(pwd):/project ihipop/deployer-toolkit:php7.1-node8.9-dep6.0 composer --version
 docker run --rm  -it   -v $(pwd):/project ihipop/deployer-toolkit:php7.1-node8.9-dep6.0 npm --version
+#....
 ```
 
 # PATH & ENV
@@ -24,3 +25,7 @@ PATH=/usr/local/composer/vendor/bin/:/project/vendor/bin/:/usr/local/sbin:/usr/l
 PWD=/project
 ```
 
+# Mount Point
+`/ssh` None hidden files in `/ssh` will be **copy** to `$HOME/.ssh`  and set by `chmod 600` in docker container.
+`/project` is mount as current working dir.
+`/tmp` is just mount as `/tmp`
