@@ -27,5 +27,7 @@ PWD=/project
 
 # Mount Point
 `/ssh` None hidden files in `/ssh` will be **copy** to `$HOME/.ssh`  and set by `chmod 600` in docker container.
+
 `/project` is mount as current working dir.
+
 `/tmp` is just mount as `/tmp`
