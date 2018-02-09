@@ -12,9 +12,9 @@ See https://github.com/ihipop/php-nodejs-alpine#tags-instruction for Tags Instru
 
 # Usage 
 ```bash
-docker run --rm  -it   -v $(pwd):/project ihipop/deployer-toolkit:php7.1-node8.9-dep6.0 dep --version
-docker run --rm  -it   -v $(pwd):/project ihipop/deployer-toolkit:php7.1-node8.9-dep6.0 composer --version
-docker run --rm  -it   -v $(pwd):/project ihipop/deployer-toolkit:php7.1-node8.9-dep6.0 npm --version
+docker run --rm  -it  -v $(pwd):/project ihipop/deployer-toolkit:php7.1-node8.9-dep6.0 dep --version
+docker run --rm  -it  -v $(pwd):/project ihipop/deployer-toolkit:php7.1-node8.9-dep6.0 composer --version
+docker run --rm  -it  -v $(pwd):/project ihipop/deployer-toolkit:php7.1-node8.9-dep6.0 npm --version
 #....
 ```
 
@@ -50,3 +50,53 @@ Is mount as current working dir.
 > `/tmp` 
 
 Is just mount as `/tmp`
+
+# PHP
+
+## Module in Default
+
+> php -m
+
+```
+[PHP Modules]
+bcmath
+bz2
+Core
+ctype
+curl
+date
+dom
+fileinfo
+filter
+ftp
+hash
+iconv
+json
+libxml
+mbstring
+mysqli
+mysqlnd
+openssl
+pcre
+PDO
+pdo_mysql
+pdo_sqlite
+Phar
+posix
+readline
+Reflection
+session
+SimpleXML
+SPL
+sqlite3
+standard
+tokenizer
+xml
+xmlreader
+xmlwriter
+zip
+zlib
+
+[Zend Modules]
+
+```
