@@ -9,6 +9,7 @@ fi
 
 if [ -f "/ssh/config" ];then
     echo "Dispatching SSH Keys"
+    mkdir -p $HOME/.ssh
     cp -rf /ssh/* $HOME/.ssh
     chmod 600 -R $HOME/.ssh/
 fi

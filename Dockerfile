@@ -1,4 +1,4 @@
-FROM ihipop/php-nodejs-alpine:php7.1-node8.9
+FROM ihipop/php-nodejs-alpine:php7.1-node8.9.npm
 
 LABEL maintainer="ihipop <ihipop#gmail.com>"
 LABEL description="(Docker + PHP + Deloyer + NODEJS + NPM + YARN + Other CANDYS) * CI = Deployer Toolkit in Alpine"
@@ -15,12 +15,14 @@ COPY artifact/local-bin/* /usr/local/bin/
 ENV COMPOSER_HOME="/usr/local/composer" 
 ENV PATH=${COMPOSER_HOME}/vendor/bin/:/project/vendor/bin/:$PATH
 # ENV ENV="/etc/profile"
+ARG PHP_EXT_INTERNAL="pdo_mysql mysqli bcmath bz2 zip"
+ARG DEL_PKGS_INTERNAL="bzip2-dev"
+ARG INSTALL_PKGS_INTERNAL='libbz2'
 
 RUN [ "$IN_CHINA" == "true" ] && echo 'http://mirrors.ustc.edu.cn/alpine/v3.4/main/' >/etc/apk/repositories \
     && echo 'http://mirrors.ustc.edu.cn/alpine/v3.4/community/' >>/etc/apk/repositories || true
 
-RUN apk update --no-cache \
-    && apk add --no-cache \
+RUN apk add --no-cache \
         openssh-client rsync unzip git bash && \
     echo 'export PATH='${COMPOSER_HOME}/vendor/bin/':/project/vendor/bin/:$PATH' >/etc/profile.d/user_env.sh && \
     echo 'export COMPOSER_HOME='${COMPOSER_HOME} >>/etc/profile.d/user_env.sh
@@ -50,10 +52,19 @@ RUN composer global require 'deployer/recipes:<='${DEPLOYER_VERSION} && \
     composer global require "squizlabs/php_codesniffer=*" && \
     npm uninstall -g cnpm && \
     npm install -g cnpm && \
+    apk add --no-cache ${INSTALL_PKGS_INTERNAL} ${DEL_PKGS_INTERNAL} && \
+    #---------------------------------------
+    CPU_NUMBER=$(getconf _NPROCESSORS_ONLN) && \
+    if [ $CPU_NUMBER -gt 1 ];then \
+        CPU_NUMBER=$((${CPU_NUMBER}-1)); \
+    fi && \
+    docker-php-ext-install -j${CPU_NUMBER} ${PHP_EXT_INTERNAL} && \
+    #---------------------------------------
+    apk del --no-cache ${DEL_PKGS_INTERNAL} && \
     rm -rf /tmp/* /var/cache/apk/* \
     /root/.npm /root/.node-gyp /root/.gnupg /usr/lib/node_modules/npm/man \
     /usr/lib/node_modules/npm/doc /usr/lib/node_modules/npm/html /usr/lib/node_modules/npm/scripts \
-    /root/.composer/cache/ ${COMPOSER_HOME}/cache/
+    /root/.composer/cache/ ${COMPOSER_HOME}/cache/ /usr/local/php/man/
 
 VOLUME ["/project", "/ssh", "/tmp"]
 WORKDIR /project

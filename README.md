@@ -25,6 +25,13 @@ PATH=/usr/local/composer/vendor/bin/:/project/vendor/bin/:/usr/local/sbin:/usr/l
 PWD=/project
 ```
 
+# Globally Installed Apps/Component
+- [Deployer (With `deployer/recipes` installed)](https://deployer.org)
+- [Composer](https://getcomposer.org)
+- [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer)
+- [CacheTool](http://gordalina.github.io/cachetool/)
+- NODEJS+NPM+YARN family
+
 # Mount Point
 > `/ssh` 
 
