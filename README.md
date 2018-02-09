@@ -25,12 +25,18 @@ PATH=/usr/local/composer/vendor/bin/:/project/vendor/bin/:/usr/local/sbin:/usr/l
 PWD=/project
 ```
 
+## SSH KEY for deploy files with access to remote host
+- `DEPLOY_SSH_KEY_FILE` Private SSH  as a file, will be pass to `ssh-add`
+- `DEPLOY_SSH_KEY_BASE64` Private SSH key's content with base64 ecnoded, will be pass to `ssh-add` after decoded
+-  `DEPLOY_SSH_KEY` Private SSH key's Content, will be pass to `ssh-add`
+
 # Globally Installed Apps/Component
 - [Deployer (With `deployer/recipes` installed)](https://deployer.org)
 - [Composer](https://getcomposer.org)
 - [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer)
 - [CacheTool](http://gordalina.github.io/cachetool/)
-- NODEJS+NPM+YARN family
+- NODEJS + NPM + YARN family
+- Necessary binary DEV libs for NPM Build in CI
 
 # Mount Point
 > `/ssh` 
