@@ -30,14 +30,14 @@ PWD=/project
 - `DEPLOY_SSH_KEY_BASE64` Private SSH key's content with base64 ecnoded, will be pass to `ssh-add` after decoded
 -  `DEPLOY_SSH_KEY` Private SSH key's Content, will be pass to `ssh-add`
 
-# Globally Installed Apps/Component
+# Globally Installed Apps/Integrated
 - [Deployer (With `deployer/recipes` installed)](https://deployer.org)
 - [Composer](https://getcomposer.org)
 - [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer)
 - [CacheTool](http://gordalina.github.io/cachetool/)
 - NODEJS + NPM + YARN family
 - Necessary binary DEV libs for NPM Build in CI
-
+- Glibc
 # Mount Point
 > `/ssh` 
 
