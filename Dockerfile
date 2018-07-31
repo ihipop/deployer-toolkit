@@ -7,17 +7,20 @@ LABEL description="(Docker + PHP + Deloyer + NODEJS + NPM + YARN + Other CANDYS)
 ARG IN_CHINA="false"
 ARG HTTP_PROXY=""
 ARG HTTPS_PROXY=""
+ARG http_proxy=""
+ARG https_proxy=""
 ARG COMPOSER_VERSION=1.6.2
 ARG DEPLOYER_VERSION=6.0.5
 
 COPY artifact/local-bin/* /usr/local/bin/
 
-ENV COMPOSER_HOME="/usr/local/composer" 
+ENV COMPOSER_HOME="/usr/local/composer"
+ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV PATH=${COMPOSER_HOME}/vendor/bin/:/project/vendor/bin/:$PATH
 # ENV ENV="/etc/profile"
-ARG PHP_EXT_INTERNAL="pdo_mysql mysqli bcmath bz2 zip"
-ARG DEL_PKGS_INTERNAL="bzip2-dev"
-ARG INSTALL_PKGS_INTERNAL='libbz2'
+ARG PHP_EXT_INTERNAL="pdo_mysql mysqli bcmath bz2 zip opcache sockets pcntl gd"
+ARG DEL_PKGS_INTERNAL="bzip2-dev libpng-dev libjpeg-turbo-dev freetype-dev pcre-dev"
+ARG INSTALL_PKGS_INTERNAL='libbz2 libpng libjpeg-turbo freetype'
 
 RUN [ "$IN_CHINA" == "true" ] && echo 'http://mirrors.ustc.edu.cn/alpine/v3.4/main/' >/etc/apk/repositories \
     && echo 'http://mirrors.ustc.edu.cn/alpine/v3.4/community/' >>/etc/apk/repositories || true
@@ -48,7 +51,7 @@ RUN if [ "$IN_CHINA" == "true" ]; then \
       npm config set registry https://registry.npm.taobao.org ; \
     fi;
 
-RUN composer global require 'deployer/recipes:<='${DEPLOYER_VERSION} && \
+RUN composer global require 'deployer/recipes:<='${DEPLOYER_VERSION} -vv && \
     composer global require "squizlabs/php_codesniffer=*" && \
     npm uninstall -g cnpm && \
     npm install -g cnpm && \
@@ -59,6 +62,7 @@ RUN composer global require 'deployer/recipes:<='${DEPLOYER_VERSION} && \
         CPU_NUMBER=$((${CPU_NUMBER}-1)); \
     fi && \
     docker-php-ext-install -j${CPU_NUMBER} ${PHP_EXT_INTERNAL} && \
+    php -m && \
     #---------------------------------------
     apk del --no-cache ${DEL_PKGS_INTERNAL} && \
     rm -rf /tmp/* /var/cache/apk/* \
