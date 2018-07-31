@@ -69,6 +69,7 @@ dom
 fileinfo
 filter
 ftp
+gd
 hash
 iconv
 json
@@ -77,6 +78,7 @@ mbstring
 mysqli
 mysqlnd
 openssl
+pcntl
 pcre
 PDO
 pdo_mysql
@@ -87,6 +89,7 @@ readline
 Reflection
 session
 SimpleXML
+sockets
 SPL
 sqlite3
 standard
@@ -94,9 +97,10 @@ tokenizer
 xml
 xmlreader
 xmlwriter
+Zend OPcache
 zip
 zlib
 
 [Zend Modules]
-
+Zend OPcache
 ```
